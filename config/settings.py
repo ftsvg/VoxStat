@@ -14,6 +14,7 @@ class Settings:
     DBNAME: str = getenv("DBNAME")
     DBENDPOINT: str = getenv("DBENDPOINT")
     API_KEY: str = getenv("API_KEY")
+    BASE_URL: str = "https://api.voxyl.net"
 
 
     @classmethod
