@@ -1,5 +1,3 @@
-from mctextrender import C
-
 class PrestigeColorMaps:
     prestige_map = {
         900: '&5',

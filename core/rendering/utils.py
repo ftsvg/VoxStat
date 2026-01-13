@@ -18,7 +18,7 @@ def get_role_prefix(role: str) -> str:
     return role_prefixes.get(role, "&7")
 
 
-async def get_displayname(name: str, role: str) -> str:
+def get_displayname(name: str, role: str) -> str:
     if role == "Legend":
         if len(name) >= 3:
             name = '&6' + name[:-3] + '&e' + name[-3:-1] + '&f' + name[-1]
