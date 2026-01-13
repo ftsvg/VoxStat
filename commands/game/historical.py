@@ -1,7 +1,7 @@
 from discord.ext import commands
 from discord import app_commands, Interaction
 
-from core import historical_interaction
+from core.historical import historical_interaction
 
 
 class Historical(commands.Cog):

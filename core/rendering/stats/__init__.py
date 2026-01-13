@@ -1,2 +1,3 @@
 from .session import render_session
 from .historical import render_historical
+from .stats import render_stats
