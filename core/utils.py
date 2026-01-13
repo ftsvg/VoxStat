@@ -75,3 +75,31 @@ def started_on(unix_time: int) -> str:
 
     date_formatted = past.strftime("%d/%m/%Y")
     return f"{date_formatted} ({ago})"
+
+
+def resets_in(unix_time: int) -> str:
+    future = datetime.fromtimestamp(unix_time, tz=timezone.utc)
+    now = datetime.now(tz=timezone.utc)
+
+    if future <= now:
+        return "resetting now"
+
+    delta = relativedelta(future, now)
+
+    if delta.years:
+        remaining = f"in {delta.years} year{'s' if delta.years != 1 else ''}"
+    elif delta.months:
+        remaining = f"in {delta.months} month{'s' if delta.months != 1 else ''}"
+    elif delta.days >= 7:
+        weeks = delta.days // 7
+        remaining = f"in {weeks} week{'s' if weeks != 1 else ''}"
+    elif delta.days:
+        remaining = f"in {delta.days} day{'s' if delta.days != 1 else ''}"
+    elif delta.hours:
+        remaining = f"in {delta.hours} hr{'s' if delta.hours != 1 else ''}"
+    elif delta.minutes:
+        remaining = f"in {delta.minutes} min{'s' if delta.minutes != 1 else ''}"
+    else:
+        remaining = f"in {delta.seconds} sec{'s' if delta.seconds != 1 else ''}"
+
+    return remaining
