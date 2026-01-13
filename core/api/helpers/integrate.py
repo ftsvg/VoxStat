@@ -6,15 +6,16 @@ from core.api import API, VoxylApiEndpoint, APIError, RateLimitError
 class IntegrationInfo:
     def __init__(
         self,
-        discord_from_player: dict | int,
-        player_from_discord: dict | int,
+        discord_from_player: dict | int | None,
+        player_from_discord: dict | int | None,
     ):
         self.discord_from_player = discord_from_player
         self.player_from_discord = player_from_discord
 
         self.discord_id = (
-            discord_from_player.get("id")
+            int(discord_from_player["id"])
             if isinstance(discord_from_player, dict)
+            and discord_from_player.get("id") is not None
             else discord_from_player
         )
 
@@ -29,7 +30,7 @@ class IntegrationInfo:
         cls,
         *,
         uuid: str | None = None,
-        discord_id: str | None = None,
+        discord_id: int | None = None,
     ) -> "IntegrationInfo":
         async def safe(
             endpoint: VoxylApiEndpoint,
@@ -58,7 +59,7 @@ class IntegrationInfo:
             tasks.append(
                 safe(
                     VoxylApiEndpoint.PLAYER_FROM_DISCORD,
-                    discord_id=discord_id,
+                    discord_id=str(discord_id),
                 )
             )
         else:

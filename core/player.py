@@ -1,11 +1,12 @@
-"""from typing import Optional
+from typing import Optional
 
 from discord import Interaction
 from mcfetch import Player
 
-from voxlib.api.utils import PlayerInfo
-from voxlib.database.utils import Linking
-from voxlib import mojang_session
+from content import ERRORS
+from core.api.helpers import PlayerInfo
+from database.handlers import LinkHandler
+from core import mojang_session
 
 
 async def check_if_ever_played(
@@ -15,27 +16,24 @@ async def check_if_ever_played(
     if not uuid:
         return False
 
-    player = PlayerInfo(uuid)
-    last_login = await player.last_login_time
+    player = await PlayerInfo.fetch(uuid)
+    last_login = player.last_login_time
 
     if last_login == 429:
         await interaction.edit_original_response(
-            content="We are being rate limited. Please try again later."
+            content=ERRORS['rate_limited']
         )
         return False
 
     if last_login == 500:
         await interaction.edit_original_response(
-            content="Failed to fetch player data."
+            content=ERRORS['failed_to_fetch']
         )
         return False
 
     if last_login is None:
         await interaction.edit_original_response(
-            content=(
-                "This player has never played on "
-                "`bedwarspractice.club` before!"
-            )
+            content=ERRORS['never_played']
         )
         return False
 
@@ -47,20 +45,17 @@ async def check_if_linked(
     player: Optional[str],
 ) -> Optional[str]:
     if player is None:
-        linked = Linking(interaction.user.id).get_linked_player()
+        linked = LinkHandler(interaction.user.id).get_linked_player()
 
         if linked:
             player = Player(
-                player=linked[1],
+                player=linked.uuid,
                 requests_obj=mojang_session,
             ).name
 
         if not player:
             await interaction.edit_original_response(
-                content=(
-                    "You are not linked! Either specify a player "
-                    "or link your account using `/link`"
-                )
+                content=ERRORS['not_linked']
             )
             return None
 
@@ -72,28 +67,23 @@ async def check_if_linked_discord(
     message: Optional[str] = None,
 ) -> Optional[str]:
     if not message:
-        message = (
-            "You are not linked! Either specify a player "
-            "or link your account using `/link`"
-        )
+        message = ERRORS['not_linked']
 
-    linked = Linking(interaction.user.id).get_linked_player()
+    linked = LinkHandler(interaction.user.id).get_linked_player()
     if not linked:
         await interaction.edit_original_response(content=message)
         return None
 
-    return linked[1]
+    return linked.uuid
 
 
 async def not_exist_message(
     interaction: Interaction,
     player: str,
 ) -> None:
+    
     await interaction.edit_original_response(
-        content=(
-            f"**{player}** does not exist! "
-            "Please provide a valid username."
-        )
+        content=ERRORS['invalid_player'].format(player)
     )
 
 
@@ -133,11 +123,9 @@ async def fetch_player(
 
         return uuid
 
+
     except Exception:
         await interaction.edit_original_response(
-            content=(
-                "The API is currently down. If this issue persists, "
-                "please contact the **VoxStats Dev Team**."
-            )
+            content=ERRORS['api_down']
         )
-        return None"""
+        return None
