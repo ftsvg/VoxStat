@@ -146,14 +146,51 @@ STAT_LAYOUTS = {
         ("finals", (645, 370), "&d", 20),
     ],
     2: [
-        ("Wins", (0, 0), "&f", 0),
-        ("Kills", (0, 0), "&f", 0),
+        ("Wins", (405, 289), "&f", 24),
+        ("Kills", (645, 289), "&f", 24),
 
-        ("wins",  (0, 0), "&a", 36),
-        ("kills",(0, 0), "&9", 36),
+        ("wins",  (405, 325), "&a", 36),
+        ("kills",(645, 325), "&9", 36),
     ],
     1: [
-        ("Wins", (0, 0), "&f", 36),
-        ("wins", (0, 0), "&a", 36),
+        ("Wins", (525, 289), "&f", 24),
+        ("wins", (525, 325), "&a", 36),
     ]
 }
+
+SELECT_MODES: List = [
+    'Overall',
+    'Bed Bridge Fight',
+    'Void Fight',
+    'Ground Fight',
+    'Block Sumo',
+    'Beta Block Sumo',
+    'Bedwars Normal',
+    'Sumo Duels',
+    'Stick Fight',
+    'Pearl Fight',
+    'Bed Rush',
+    'Obstacles',
+    'Party Games',
+    'Bow Fight',
+    'Ladder Fight',
+    'Flat Fight',
+    'Resource Collect',
+    'Miniwars'
+]
+
+BUTTON_MODES: List = [
+    'Bed Bridge Fight',
+    'Void Fight',
+    'Ground Fight',
+    'Bedwars Normal',
+    'Sumo Duels',
+    'Stick Fight',
+    'Pearl Fight',
+    'Bed Rush',
+    'Bow Fight',
+    'Ladder Fight',
+    'Flat Fight',
+    'Resource Collect',
+    'Miniwars'
+]

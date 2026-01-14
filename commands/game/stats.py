@@ -4,6 +4,7 @@ from discord import app_commands, Interaction, File
 from logger import logger
 from core import fetch_player, MODES
 from core.rendering.stats import render_stats
+from views import StatsView
 
 
 class Stats(commands.Cog):
@@ -34,8 +35,17 @@ class Stats(commands.Cog):
                 return None
             
             await render_stats(mode, uuid, "combined")
+
+            view = StatsView(
+                interaction=interaction,
+                uuid=uuid,
+                org_user=interaction.user.id,
+                mode=mode
+            )
+
             await interaction.edit_original_response(
-                attachments=[File(f"./assets/stats/stats.png")]
+                attachments=[File(f"./assets/stats/stats.png")],
+                view=view
             )
 
         except Exception as error:
