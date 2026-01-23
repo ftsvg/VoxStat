@@ -1,7 +1,9 @@
 import discord
 from discord import Interaction
+
 from core import MODE_CONFIG
 from core.rendering.stats import render_stats
+from core.api.helpers import PlayerInfo
 
 
 class ModeSelect(discord.ui.Select):
@@ -41,6 +43,7 @@ class StatsView(discord.ui.View):
         uuid: str,
         org_user: int,
         mode: str,
+        player: PlayerInfo,
         timeout: int = 180
     ):
         super().__init__(timeout=timeout)
@@ -48,6 +51,7 @@ class StatsView(discord.ui.View):
         self.uuid = uuid
         self.org_user = org_user
         self.mode = mode
+        self.player = player
         self.view_type = "combined"
         self.build()
 
@@ -94,6 +98,7 @@ class StatsView(discord.ui.View):
     async def refresh(self, interaction: Interaction):
         self.build()
         await render_stats(
+            player=self.player,
             mode=self.mode,
             uuid=self.uuid,
             view=self.view_type

@@ -4,6 +4,7 @@ from discord import app_commands, Interaction, File
 from logger import logger
 from core import fetch_player, MODES
 from core.rendering.stats import render_stats
+from core.api.helpers import PlayerInfo
 from views import StatsView
 
 
@@ -34,16 +35,19 @@ class Stats(commands.Cog):
             if not (uuid := await fetch_player(interaction, player)):
                 return None
             
+            stats = await PlayerInfo.fetch(uuid)
             await render_stats(mode, uuid, "combined")
 
             view = StatsView(
                 interaction=interaction,
                 uuid=uuid,
                 org_user=interaction.user.id,
-                mode=mode
+                mode=mode,
+                player=stats
             )
 
             await interaction.edit_original_response(
+                content=f"Last login time: <t:{stats.last_login_time}:R>",
                 attachments=[File(f"./assets/stats/stats.png")],
                 view=view
             )

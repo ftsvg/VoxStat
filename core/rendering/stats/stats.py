@@ -154,10 +154,14 @@ async def render_generic(mode: str, data: dict, total_stats: int, stat_type: str
     im.save("./assets/stats/stats.png")
 
 
-async def render_stats(mode: str, uuid: str, view: str = "combined"):
+async def render_stats(
+    player: PlayerInfo,
+    mode: str, 
+    uuid: str, 
+    view: str = "combined"
+):
     try:
         config = MODE_CONFIG.get(mode)
-        player = await PlayerInfo.fetch(uuid)
 
         if config.get("overall"):
             return await render_overall(player, uuid)
