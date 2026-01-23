@@ -2,20 +2,8 @@ from mctextrender import BackgroundImageLoader, ImageRender
 from mcfetch import Player
 
 from core.api.helpers import PlayerInfo
-
-from core import mojang_session
-
+from core import mojang_session, format_difference
 from core.rendering import get_displayname, get_prestige_color
-
-
-def format_difference(diff):
-    if diff == 0:
-        return "&a+0"
-    
-    color = "&a" if diff > 0 else "&c"
-    sign = "+" if diff > 0 else "-"
-
-    return f"{color}{sign}{abs(diff):,}"
 
 
 async def render_compare(

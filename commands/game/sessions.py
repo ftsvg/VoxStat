@@ -1,21 +1,15 @@
 from discord.ext import commands
 from discord import app_commands, Interaction, File
 
-from content import COMMANDS, ERRORS, DESCRIPTIONS
+from content import ERRORS, DESCRIPTIONS
 from core.rendering.stats import render_session
+from core import SESSION_CHOICES
 from logger import logger
 from database.handlers import SessionHandler
 from core import (
     check_if_linked_discord,
     fetch_player,
 )
-
-
-SESSION_CHOICES = [
-    app_commands.Choice(name="1", value=1),
-    app_commands.Choice(name="2", value=2),
-    app_commands.Choice(name="3", value=3),
-]
 
 
 class Session(commands.Cog):

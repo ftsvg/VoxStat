@@ -32,6 +32,16 @@ def get_xp_for_level(level: int) -> int:
     return base_xp + (20 * increment)
 
 
+def format_difference(diff):
+    if diff == 0:
+        return "&a+0"
+    
+    color = "&a" if diff > 0 else "&c"
+    sign = "+" if diff > 0 else "-"
+
+    return f"{color}{sign}{abs(diff):,}"
+
+
 def get_total_xp(level: int, partial_xp: int = 0) -> int:
     total_xp = 0
     for lvl in range(1, level):
