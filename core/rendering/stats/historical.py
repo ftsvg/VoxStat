@@ -80,6 +80,7 @@ async def render_historical(
         (f'{parts[2]}',  {'position': (609, 413), 'align': 'left',  'font_size': 16}),
 
         (f'Next reset {resets_in(reset)}',  {'position': (526, 98), 'align': 'center',  'font_size': 14}),
+        ("&7Made with &c❤ &7by &9VoxStat's &7developers", {"position": (525, 458), 'align': 'center',  'font_size': 14})
     ],
         {"shadow_offset": (2, 2)} 
     )
