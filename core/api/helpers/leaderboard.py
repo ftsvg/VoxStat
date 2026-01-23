@@ -18,12 +18,12 @@ class LeaderboardInfo:
 
     @staticmethod
     async def fetch_leaderboard(
-        type_: str,
+        _type: str,
         num: int = 100,
     ) -> dict | int:
         return await LeaderboardInfo._safe_request(
             VoxylApiEndpoint.LEADERBOARD_NORMAL,
-            type=type_,
+            type=_type,
             num=num,
         )
 
@@ -31,11 +31,11 @@ class LeaderboardInfo:
     async def fetch_game_leaderboard(
         ref: str,
         period: str = "weekly",
-        type_: str = "wins",
+        _type: str = "wins",
     ) -> dict | int:
         return await LeaderboardInfo._safe_request(
             VoxylApiEndpoint.LEADERBOARD_GAME,
             ref=ref,
             period=period,
-            type=type_,
+            type=_type,
         )

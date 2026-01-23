@@ -1,5 +1,11 @@
 from datetime import datetime, timezone
 from dateutil.relativedelta import relativedelta
+from typing import List
+
+from discord import app_commands
+from mcfetch import Player
+
+from core import mojang_session
 
 
 def get_xp_for_level(level: int) -> int:
@@ -103,3 +109,30 @@ def resets_in(unix_time: int) -> str:
         remaining = f"in {delta.seconds} sec{'s' if delta.seconds != 1 else ''}"
 
     return remaining
+
+
+PAGES: List[app_commands.Choice] = [
+    app_commands.Choice(name=f"Page {i}", value=i) for i in range(1, 11)
+]
+
+def get_leaderboard_page(
+    data: dict, 
+    player: str
+) -> tuple[int, int] | None:
+    
+    uuid = Player(player=player, requests_obj=mojang_session).uuid
+
+    if not uuid:
+        return None, None
+    
+    idx = next(
+        (i for i, p in enumerate(data['players']) if str(p['uuid']).replace("-", "") == uuid)
+    )
+
+    if idx is None:
+        return None, None
+    
+    page = idx // 10 + 1
+    pos = idx % 10 + 1
+
+    return page, pos
