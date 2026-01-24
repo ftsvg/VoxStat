@@ -1,0 +1,5 @@
+discord.py
+pymysql
+mctextrender
+python-dotenv
+aiohttp
