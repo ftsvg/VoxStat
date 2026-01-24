@@ -12,7 +12,7 @@ class Settings:
     DBUSER: str = getenv("DBUSER")
     DBPASS: str = getenv("DBPASS")
     DBNAME: str = getenv("DBNAME")
-    DBPORT: str = getenv("DBPORT")
+    DBPORT: int = getenv("DBPORT")
     DBENDPOINT: str = getenv("DBENDPOINT")
     API_KEY: str = getenv("API_KEY")
     BASE_URL: str = "https://api.voxyl.net"
