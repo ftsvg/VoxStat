@@ -126,22 +126,27 @@ PAGES: List[app_commands.Choice] = [
 ]
 
 def get_leaderboard_page(
-    data: dict, 
+    data: dict,
     player: str
-) -> tuple[int, int] | None:
-    
-    uuid = Player(player=player, requests_obj=mojang_session).uuid
+) -> tuple[int | None, int | None]:
 
+    uuid = Player(player=player, requests_obj=mojang_session).uuid
     if not uuid:
         return None, None
-    
+
+    uuid = uuid.replace("-", "")
+
     idx = next(
-        (i for i, p in enumerate(data['players']) if str(p['uuid']).replace("-", "") == uuid)
+        (
+            i for i, p in enumerate(data["players"])
+            if str(p["uuid"]).replace("-", "") == uuid
+        ),
+        None
     )
 
     if idx is None:
         return None, None
-    
+
     page = idx // 10 + 1
     pos = idx % 10 + 1
 

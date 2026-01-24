@@ -6,6 +6,7 @@ from logger import logger
 from core import PAGES, get_leaderboard_page, mojang_session
 from core.api.helpers import LeaderboardInfo
 from core.rendering.stats import render_leaderboard
+from views import LeaderboardView
 
 
 class Leaderboard(commands.Cog):
@@ -64,9 +65,20 @@ class Leaderboard(commands.Cog):
             
 
             await render_leaderboard(data, page, pos, 'Level')
-            await interaction.edit_original_response(
-                attachments=[File(f"./assets/stats/leaderboard_level.png")],
-            )    
+
+            view = LeaderboardView(
+                data=data,
+                lb_type="level",
+                page=page,
+                owner_id=interaction.user.id
+            )
+
+            msg = await interaction.edit_original_response(
+                attachments=[File("./assets/stats/leaderboard_level.png")],
+                view=view
+            )
+
+            view.message = msg    
 
         except Exception as error:
             logger.warning(error)
@@ -116,9 +128,20 @@ class Leaderboard(commands.Cog):
             
 
             await render_leaderboard(data, page, pos, 'weightedwins')
-            await interaction.edit_original_response(
-                attachments=[File(f"./assets/stats/leaderboard_weightedwins.png")],
-            )    
+
+            view = LeaderboardView(
+                data=data,
+                lb_type="weightedwins",
+                page=page,
+                owner_id=interaction.user.id
+            )
+
+            msg = await interaction.edit_original_response(
+                attachments=[File("./assets/stats/leaderboard_weightedwins.png")],
+                view=view
+            )
+
+            view.message = msg
 
         except Exception as error:
             logger.warning(error)

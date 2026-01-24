@@ -36,7 +36,7 @@ class Stats(commands.Cog):
                 return None
             
             stats = await PlayerInfo.fetch(uuid)
-            await render_stats(mode, uuid, "combined")
+            await render_stats(stats, mode, uuid, "combined")
 
             view = StatsView(
                 interaction=interaction,
