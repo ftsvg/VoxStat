@@ -3,3 +3,4 @@ pymysql
 mctextrender
 python-dotenv
 aiohttp
+requests-cache
