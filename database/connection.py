@@ -9,7 +9,7 @@ from config import Settings
 def db_connect():
     return pymysql.connect(
         host=Settings.DBENDPOINT,
-        port=3306,
+        port=Settings.DBPORT,
         user=Settings.DBUSER,
         password=Settings.DBPASS,
         database=Settings.DBNAME,
