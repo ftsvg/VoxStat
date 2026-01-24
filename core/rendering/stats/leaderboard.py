@@ -12,7 +12,7 @@ async def render_leaderboard(
     data: dict,
     page: int,
     pos: int = None,
-    lb_type: str = "Level"
+    lb_type: str = "level"
 ) -> None:
     
     if pos:
@@ -85,5 +85,5 @@ async def render_leaderboard(
         y_skin += 45
 
     if lb_type.lower() == "weighted wins": lb_type = "weightedwins" 
-    im.save(f"./assets/stats/leaderboard_{lb_type}.png")
+    im.save(f"./assets/stats/leaderboard_{lb_type.lower()}.png")
 

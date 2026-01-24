@@ -64,7 +64,7 @@ class Leaderboard(commands.Cog):
                 pos = None
             
 
-            await render_leaderboard(data, page, pos, 'Level')
+            await render_leaderboard(data, page, pos, 'level')
 
             view = LeaderboardView(
                 data=data,
