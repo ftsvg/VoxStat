@@ -1,6 +1,10 @@
-discord.py
-pymysql
-mctextrender
-python-dotenv
-aiohttp
-requests-cache
+aiohttp==3.13.2
+aiohttp_client_cache==0.14.3
+discord.py==2.6.4
+mcfetch==2.1.3
+mctextrender==10.0.0
+Pillow==12.1.0
+pymysql==1.1.2
+python-dotenv==1.2.1
+python_dateutil==2.9.0.post0
+requests_cache==1.2.1
