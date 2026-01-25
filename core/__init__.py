@@ -4,6 +4,7 @@ from .player import *
 from .link import unlink_interaction, link_interaction
 from .modes import STAT_LAYOUTS, MODE_CONFIG, MODES, SELECT_MODES
 from .projected import calc_projected
+from .webhooks import send_webhook_message
 
 
 __all__ = (
@@ -17,5 +18,6 @@ __all__ = (
     "MODES",
     "fetch_player",
     "SESSION_CHOICES",
-    "calc_projected"
+    "calc_projected",
+    "send_webhook_message"
 )

@@ -24,6 +24,9 @@ class Settings:
     SUGGESTIONS_CHANNEL: int = int(getenv("SUGGESTIONS_CHANNEL"))
     BUG_CHANNEL: int = int(getenv("BUG_CHANNEL"))
 
+    WEBSOCKET_URI: str = getenv("WEBSOCKET_URI")
+    GUILD_CHAT: int =  int(getenv("GUILD_CHAT"))
+
     @classmethod
     def validate(cls) -> None:
         if not cls.TOKEN:
