@@ -2,6 +2,7 @@ from discord.ext import commands
 from discord import app_commands, Interaction, File
 
 from core import SESSION_CHOICES, fetch_player
+from content import ERRORS
 from core.api.helpers import PlayerInfo
 from logger import logger
 from content import ERRORS
@@ -75,6 +76,9 @@ class Prestige(commands.Cog):
                     
         except Exception as error:
             logger.error(error)
+            await interaction.edit_original_response(
+                content=ERRORS['application_error']
+            ) 
 
 
 async def setup(client: commands.Bot) -> None:

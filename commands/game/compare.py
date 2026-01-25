@@ -3,7 +3,7 @@ from discord import app_commands, Interaction, File
 
 from logger import logger
 from core import fetch_player
-from core.api.helpers import PlayerInfo
+from content import ERRORS
 from core.rendering.stats import render_compare
 
 
@@ -43,6 +43,9 @@ class Compare(commands.Cog):
             
         except Exception as error:
             logger.warning(error)
+            await interaction.edit_original_response(
+                content=ERRORS['application_error']
+            ) 
 
 
 async def setup(client: commands.Bot) -> None:

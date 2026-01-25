@@ -3,6 +3,7 @@ from discord import app_commands, Interaction, File
 from mcfetch import Player
 
 from logger import logger
+from content import ERRORS
 from core import PAGES, get_leaderboard_page, mojang_session
 from core.api.helpers import LeaderboardInfo
 from core.rendering.stats import render_leaderboard
@@ -82,6 +83,9 @@ class Leaderboard(commands.Cog):
 
         except Exception as error:
             logger.warning(error)
+            await interaction.edit_original_response(
+                content=ERRORS['application_error']
+            ) 
 
 
     @leaderboard.command(
@@ -145,6 +149,9 @@ class Leaderboard(commands.Cog):
 
         except Exception as error:
             logger.warning(error)
+            await interaction.edit_original_response(
+                content=ERRORS['application_error']
+            ) 
 
 
 async def setup(client: commands.Bot) -> None:
