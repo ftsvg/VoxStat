@@ -33,9 +33,9 @@ async def render_historical(
         (f'&fWins', {'position': (404, 185), "align": "center", "font_size": 16}),
         (f'&fWeighted Wins', {'position': (649, 185), "align": "center", "font_size": 16}),
 
-        (f'&fFinal Kills', {'position': (363, 265), "align": "center", "font_size": 16}),
-        (f'&fKills', {'position': (526, 265), "align": "center", "font_size": 16}),
-        (f'&fBeds Broken', {'position': (690, 265), "align": "center", "font_size": 16}),
+        (f'&fKills', {'position': (363, 265), "align": "center", "font_size": 16}),
+        (f'&fFinals', {'position': (526, 265), "align": "center", "font_size": 16}),
+        (f'&fBeds', {'position': (690, 265), "align": "center", "font_size": 16}),
 
         (f'&fLevels Gained', {'position': (404, 340), "align": "center", "font_size": 16}),
         (f'&fEXP Gained', {'position': (649, 340), "align": "center", "font_size": 16}),
@@ -66,8 +66,8 @@ async def render_historical(
         (f'&a{wins:,}', {'position': (404, 207), "align": "center", "font_size": 20}),
         (f'&9{weighted:,}', {'position': (649, 207), "align": "center", "font_size": 20}),
 
-        (f'&d{finals:,}', {'position': (363, 287), "align": "center", "font_size": 20}),
-        (f'&c{kills:,}', {'position': (526, 287), "align": "center", "font_size": 20}),
+        (f'&d{kills:,}', {'position': (363, 287), "align": "center", "font_size": 20}),
+        (f'&c{finals:,}', {'position': (526, 287), "align": "center", "font_size": 20}),
         (f'&e{beds:,}', {'position': (690, 287), "align": "center", "font_size": 20}),
 
         (f'&b{stars_gained}', {'position': (404, 362), "align": "center", "font_size": 18}),
