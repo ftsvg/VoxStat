@@ -14,6 +14,8 @@ class Support(commands.Cog):
         name="support",
         description="Get in contact with support, suggest a feature or report a bug"
     )
+    @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
+    @app_commands.allowed_installs(guilds=True, users=True)
     @app_commands.describe(
         type="Select a what you want to do"
     )
