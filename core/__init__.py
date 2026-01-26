@@ -4,7 +4,7 @@ from .player import *
 from .link import unlink_interaction, link_interaction
 from .modes import STAT_LAYOUTS, MODE_CONFIG, MODES, SELECT_MODES
 from .projected import calc_projected
-from .webhooks import send_webhook_message
+from .websocket import send_webhook_message
 
 
 __all__ = (

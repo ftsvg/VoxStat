@@ -40,5 +40,5 @@ async def send_webhook_message(
                 return None
 
     except Exception as error:
-        logger.error(f"WebSocket error: {error}")
+        logger.exception("Websocket error: %s", error)
         return None

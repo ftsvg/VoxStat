@@ -71,7 +71,8 @@ async def historical_interaction(
 
 
     except Exception as error:
-        logger.error(error)
+        logger.exception("Unhandled exception: %s", error)
+
         return await interaction.edit_original_response(
             content=ERRORS['application_error']
         )

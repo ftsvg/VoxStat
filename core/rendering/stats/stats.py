@@ -172,4 +172,4 @@ async def render_stats(
         await render_generic(mode, data, config["stats"], stat_type, uuid, player)
 
     except Exception as error:
-        logger.error(error)
+        logger.exception("Unhandled exception: %s", error)

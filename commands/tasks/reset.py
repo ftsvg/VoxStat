@@ -14,6 +14,7 @@ RESET_INTERVALS = {
     "yearly": 60 * 60 * 24 * 365,
 }
 
+
 async def update_historical(period: str) -> None:
     now = int(time.time())
     interval = RESET_INTERVALS[period]
@@ -22,6 +23,11 @@ async def update_historical(period: str) -> None:
     players = handler.get_players()
 
     for uuid, last_reset in players:
+        try:
+            last_reset = int(last_reset)
+        except (TypeError, ValueError):
+            last_reset = 0
+
         if now <= last_reset + interval:
             continue
 
@@ -35,23 +41,26 @@ async def update_historical(period: str) -> None:
                 player_stats.finals,
                 player_stats.beds,
                 player_stats.level,
-                player_stats.exp
+                player_stats.exp,
             )
 
-        except Exception as error:
-            logger.error(error)
+        except Exception:
+            logger.exception("Unhandled exception")
 
 
-async def update_daily():
+async def update_daily() -> None:
     await update_historical("daily")
 
-async def update_weekly():
+
+async def update_weekly() -> None:
     await update_historical("weekly")
 
-async def update_monthly():
+
+async def update_monthly() -> None:
     await update_historical("monthly")
 
-async def update_yearly():
+
+async def update_yearly() -> None:
     await update_historical("yearly")
 
 
@@ -61,15 +70,15 @@ class HistoricalReset(commands.Cog):
         self.update_task.start()
 
     @tasks.loop(minutes=1)
-    async def update_task(self):
+    async def update_task(self) -> None:
         try:
             await update_daily()
             await update_weekly()
             await update_monthly()
             await update_yearly()
 
-        except Exception as error:
-            logger.error(error)
+        except Exception:
+            logger.exception("Unhandled exception")
 
 
 async def setup(client: commands.Bot) -> None:

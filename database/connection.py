@@ -13,7 +13,8 @@ def db_connect():
         user=Settings.DBUSER,
         password=Settings.DBPASS,
         database=Settings.DBNAME,
-        autocommit=True
+        autocommit=True,
+        cursorclass=pymysql.cursors.DictCursor,
     )
 
 

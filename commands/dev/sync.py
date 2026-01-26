@@ -1,5 +1,3 @@
-import traceback
-
 from discord.ext import commands
 from logger import logger
 
@@ -18,8 +16,8 @@ class Sync(commands.Cog):
                 content=f"Successfully synced **{len(synced)}** slash commands."
             )
         
-        except Exception:
-            logger.error(traceback.format_exc())
+        except Exception as error:
+            logger.exception("Unhandled exception: %s", error)
 
 
 async def setup(client: commands.Bot) -> None:

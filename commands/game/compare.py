@@ -42,7 +42,7 @@ class Compare(commands.Cog):
             ) 
             
         except Exception as error:
-            logger.warning(error)
+            logger.exception("Unhandled exception: %s", error)
             await interaction.edit_original_response(
                 content=ERRORS['application_error']
             ) 

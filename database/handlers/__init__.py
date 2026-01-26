@@ -1,3 +1,3 @@
-from .link import LinkHandler
+from .user import UserHandler
 from .session import SessionHandler
 from .historical import HistoricalHandler

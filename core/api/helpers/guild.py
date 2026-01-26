@@ -8,30 +8,27 @@ class GuildInfo:
     def __init__(
         self,
         tag_or_id: str,
-        guild_info: dict | int,
-        guild_members: dict | int,
+        guild_info: dict | int | None,
+        guild_members: dict | int | None,
     ):
-        self.tag_or_id = tag_or_id
-
-        self.guild_info = guild_info
-        self.guild_members = guild_members
+        self.tag_or_id = str(tag_or_id)
 
         self.id = (
-            guild_info.get("id")
+            str(guild_info.get("id"))
             if isinstance(guild_info, dict)
-            else guild_info
+            else str(guild_info)
         )
 
         self.name = (
-            guild_info.get("name")
+            str(guild_info.get("name"))
             if isinstance(guild_info, dict)
-            else guild_info
+            else str(guild_info)
         )
 
         self.description = (
-            guild_info.get("desc")
+            str(guild_info.get("desc"))
             if isinstance(guild_info, dict)
-            else guild_info
+            else str(guild_info)
         )
 
         self.xp = (
@@ -47,9 +44,9 @@ class GuildInfo:
         )
 
         self.owner_uuid = (
-            guild_info.get("ownerUUID")
+            str(guild_info.get("ownerUUID"))
             if isinstance(guild_info, dict)
-            else guild_info
+            else str(guild_info)
         )
 
         self.creation_time = (
@@ -61,21 +58,19 @@ class GuildInfo:
         self.members = (
             guild_members.get("members")
             if isinstance(guild_members, dict)
-            else guild_members
+            else []
         )
 
     @classmethod
-    async def fetch(cls, tag_or_id: str) -> "GuildInfo":
+    async def fetch(cls, tag_or_id: str) -> "GuildInfo | None":
         async def safe(
             endpoint: VoxylApiEndpoint,
             **params: Any,
-        ) -> dict | int:
+        ) -> dict | int | None:
             try:
                 return await API.make_request(endpoint, **params)
-            except RateLimitError:
-                return 429
-            except APIError:
-                return 500
+            except (RateLimitError, APIError):
+                return None
 
         guild_info, guild_members = await asyncio.gather(
             safe(
@@ -88,16 +83,17 @@ class GuildInfo:
             ),
         )
 
+        if guild_info is None:
+            return None
+
         return cls(
-            tag_or_id,
-            guild_info,
-            guild_members,
+            tag_or_id, 
+            guild_info, 
+            guild_members
         )
 
     @staticmethod
-    async def fetch_top_guilds(
-        num: int = 10,
-    ) -> dict | int:
+    async def fetch_top_guilds(num: int = 10) -> dict | int:
         try:
             return await API.make_request(
                 VoxylApiEndpoint.GUILD_TOP,

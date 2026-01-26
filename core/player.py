@@ -5,7 +5,7 @@ from mcfetch import Player
 
 from content import ERRORS
 from core.api.helpers import PlayerInfo
-from database.handlers import LinkHandler
+from database.handlers import UserHandler
 from core import mojang_session
 
 
@@ -45,7 +45,7 @@ async def check_if_linked(
     player: Optional[str],
 ) -> Optional[str]:
     if player is None:
-        linked = LinkHandler(interaction.user.id).get_linked_player()
+        linked = UserHandler(None).get_user_by_discord_id(interaction.user.id)
 
         if linked:
             player = Player(
@@ -69,7 +69,7 @@ async def check_if_linked_discord(
     if not message:
         message = ERRORS['not_linked']
 
-    linked = LinkHandler(interaction.user.id).get_linked_player()
+    linked = UserHandler(None).get_user_by_discord_id(interaction.user.id)
     if not linked:
         await interaction.edit_original_response(content=message)
         return None
@@ -89,8 +89,12 @@ async def not_exist_message(
 
 async def check_if_valid_ign(
     interaction: Interaction,
-    player: str,
-) -> Optional[str]:
+    player: str | None,
+) -> str | None:
+    if not player or not isinstance(player, str):
+        await not_exist_message(interaction, player)
+        return None
+
     if len(player) > 16:
         await not_exist_message(interaction, player)
         return None
@@ -100,7 +104,7 @@ async def check_if_valid_ign(
         requests_obj=mojang_session,
     ).uuid
 
-    if uuid is None:
+    if not uuid:
         await not_exist_message(interaction, player)
         return None
 

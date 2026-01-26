@@ -2,9 +2,10 @@ from datetime import datetime, timezone
 from dateutil.relativedelta import relativedelta
 from typing import List
 
-from discord import app_commands
+from discord import app_commands, Interaction
 from mcfetch import Player
 
+from config import Settings
 from core import mojang_session
 
 
@@ -151,3 +152,18 @@ def get_leaderboard_page(
     pos = idx % 10 + 1
 
     return page, pos
+
+
+async def check_server(interaction: Interaction):
+    try:
+        guild_id = interaction.guild.id
+    except Exception:
+        guild_id = 0
+
+    if guild_id != Settings.GUILD_SERVER_ID:
+        await interaction.response.send_message(
+            content=f"This command is only available in the Shine Guilds Discord server. [**Join here**]({Settings.GUILD_DISCORD_SERVER})",
+            ephemeral=True
+        )
+        return False
+    return True

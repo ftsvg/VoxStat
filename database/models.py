@@ -1,10 +1,16 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 
 @dataclass(slots=True)
-class LinkedPlayer:
-    discord_id: int
+class Users:
     uuid: str
+    discord_id: int | None = None
+    guild_id: int | None = None
+    star: int | None = None
+    xp: int | None = None
+    highest_star: float | None = None
+    past_star_weeks: list = field(default_factory=list)
+    tracklist: bool = False
 
 
 @dataclass(slots=True)

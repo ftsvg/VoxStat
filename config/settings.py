@@ -27,6 +27,9 @@ class Settings:
     WEBSOCKET_URI: str = getenv("WEBSOCKET_URI")
     GUILD_CHAT: int =  int(getenv("GUILD_CHAT"))
 
+    GUILD_SERVER_ID: int = int(getenv("GUILD_SERVER_ID"))
+    GUILD_DISCORD_SERVER: str = getenv("GUILD_DISCORD_SERVER")
+
     @classmethod
     def validate(cls) -> None:
         if not cls.TOKEN:
