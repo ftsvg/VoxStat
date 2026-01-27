@@ -167,3 +167,7 @@ async def check_server(interaction: Interaction):
         )
         return False
     return True
+
+
+def is_valid_tag(tag: str) -> bool:
+    return "§" in tag    

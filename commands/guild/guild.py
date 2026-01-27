@@ -3,7 +3,7 @@ from discord import app_commands, Interaction, Embed
 
 from logger import logger
 from content import ERRORS
-from core import send_webhook_message, MAIN_COLOR, check_server
+from core import send_webhook_message, MAIN_COLOR, check_server, is_valid_tag
 from core.api.helpers import GuildInfo
 
 
@@ -33,6 +33,12 @@ class Guild(commands.Cog):
             if not await check_server(interaction):
                 return
             
+            if is_valid_tag(tag):
+                await interaction.response.send_message(
+                    content="**§** symbols cannot be used in tags for this command."
+                )
+                return
+
             await interaction.response.defer()
 
             data = await GuildInfo.fetch(tag)
