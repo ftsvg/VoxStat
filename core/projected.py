@@ -10,7 +10,7 @@ def calc_projected(
     current: PlayerInfo
 ) -> dict:
     
-    stars_gained = current.level - session.level
+    stars_gained = current.level - session.star
     if stars_gained <= 0:
         return {"error": "This player must gain at least one star to view projected stats."}  
     

@@ -21,7 +21,8 @@ class SuggestionModal(Modal, title="Suggestion"):
         self._member = member
 
     async def on_submit(self, interaction: Interaction):
-        channel = interaction.guild.get_channel(Settings.SUGGESTIONS_CHANNEL)
+        guild = interaction.client.get_guild(Settings.DEV_SERVER_ID)
+        channel = guild.get_channel(Settings.BUG_CHANNEL)
 
         embed = Embed(
             title="New Suggestion Submitted",
@@ -64,7 +65,8 @@ class BugReportModal(Modal, title="Bug"):
         self._member = member
 
     async def on_submit(self, interaction: Interaction):
-        channel = interaction.guild.get_channel(Settings.BUG_CHANNEL)
+        guild = interaction.client.get_guild(Settings.DEV_SERVER_ID)
+        channel = guild.get_channel(Settings.BUG_CHANNEL)
 
         embed = Embed(
             title="Bug Report Submitted", color=MAIN_COLOR,

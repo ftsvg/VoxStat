@@ -22,7 +22,7 @@ class HistoricalHandler:
         )
         row = cursor.fetchone()
 
-        return HistoricalStats(*row) if row else None
+        return HistoricalStats(**row) if row else None
 
 
     @ensure_cursor

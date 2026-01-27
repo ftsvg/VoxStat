@@ -22,7 +22,7 @@ class Session:
     kills: int
     finals: int
     beds: int
-    level: int
+    star: int
     xp: int
     start_time: int
 
@@ -36,6 +36,6 @@ class HistoricalStats:
     kills: int
     finals: int
     beds: int
-    level: int
+    star: int
     xp: int
     last_reset: int

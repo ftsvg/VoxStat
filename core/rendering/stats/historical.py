@@ -53,7 +53,7 @@ async def render_historical(
     beds = int(player.beds - historical_data.beds)
 
     exp_gained, stars_gained = get_xp_and_stars(
-        old_level = historical_data.level,
+        old_level = historical_data.star,
         old_xp = historical_data.xp,
         new_level = player.level,
         new_xp = player.exp

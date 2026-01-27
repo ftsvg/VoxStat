@@ -23,7 +23,7 @@ class SessionHandler:
         )
         data = cursor.fetchone()
 
-        return Session(*data) if data else None
+        return Session(**data) if data else None
 
 
     @ensure_cursor

@@ -30,6 +30,8 @@ class Settings:
     GUILD_SERVER_ID: int = int(getenv("GUILD_SERVER_ID"))
     GUILD_DISCORD_SERVER: str = getenv("GUILD_DISCORD_SERVER")
 
+    DEV_SERVER_ID: int = int(getenv("DEV_SERVER_ID"))
+
     @classmethod
     def validate(cls) -> None:
         if not cls.TOKEN:

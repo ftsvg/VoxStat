@@ -42,17 +42,17 @@ async def render_session(uuid: str, session: int) -> None:
         {"shadow_offset": (2, 2)} 
     )
 
-    wins = int(player.wins - session_data.wins)
-    weighted = int(player.weightedwins - session_data.weighted) 
-    kills = int(player.kills - session_data.kills) 
-    finals = int(player.finals - session_data.finals)
-    beds = int(player.beds - session_data.beds)
+    wins = int(player.wins) - int(session_data.wins)
+    weighted = int(player.weightedwins) - int(session_data.weighted)
+    kills = int(player.kills) - int(session_data.kills)
+    finals = int(player.finals) - int(session_data.finals)
+    beds = int(player.beds) - int(session_data.beds)
 
     exp_gained, stars_gained = get_xp_and_stars(
-        old_level = session_data.level,
-        old_xp = session_data.xp,
-        new_level = player.level,
-        new_xp = player.exp
+        old_level=int(session_data.star),
+        old_xp=int(session_data.xp),
+        new_level=int(player.level),
+        new_xp=int(player.exp)
     )
 
     display_name = get_displayname(ign, player.role)
