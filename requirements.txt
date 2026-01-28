@@ -10,3 +10,4 @@ python_dateutil==2.9.0.post0
 requests_cache==1.2.1
 aiosqlite
 websockets
+matplotlib
