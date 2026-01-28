@@ -56,13 +56,17 @@ class GuildInfo:
         )
 
         self.members = (
-            guild_members.get("members")
+            [m["uuid"] for m in guild_members.get("members", [])]
             if isinstance(guild_members, dict)
             else []
         )
 
     @classmethod
-    async def fetch(cls, tag_or_id: str) -> "GuildInfo | None":
+    async def fetch(cls, tag_or_id: str | int) -> "GuildInfo | None":
+        def normalize(value: str | int) -> str:
+            value = str(value)
+            return f"-{value}" if value.isdigit() else value
+
         async def safe(
             endpoint: VoxylApiEndpoint,
             **params: Any,
@@ -72,14 +76,16 @@ class GuildInfo:
             except (RateLimitError, APIError):
                 return None
 
+        identifier = normalize(tag_or_id)
+
         guild_info, guild_members = await asyncio.gather(
             safe(
                 VoxylApiEndpoint.GUILD_INFO,
-                tag_or_id=tag_or_id,
+                tag_or_id=identifier,
             ),
             safe(
                 VoxylApiEndpoint.GUILD_MEMBERS,
-                tag_or_id=tag_or_id,
+                tag_or_id=identifier,
             ),
         )
 
@@ -87,9 +93,9 @@ class GuildInfo:
             return None
 
         return cls(
-            tag_or_id, 
-            guild_info, 
-            guild_members
+            identifier,
+            guild_info,
+            guild_members,
         )
 
     @staticmethod

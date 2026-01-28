@@ -5,6 +5,7 @@ from .link import unlink_interaction, link_interaction
 from .modes import STAT_LAYOUTS, MODE_CONFIG, MODES, SELECT_MODES
 from .projected import calc_projected
 from .websocket import send_webhook_message
+from .charts import generate_xp_chart
 
 
 __all__ = (
@@ -19,5 +20,6 @@ __all__ = (
     "fetch_player",
     "SESSION_CHOICES",
     "calc_projected",
-    "send_webhook_message"
+    "send_webhook_message",
+    "generate_xp_chart"
 )

@@ -4,3 +4,4 @@ from .stats import render_stats
 from .compare import render_compare
 from .leaderboard import render_leaderboard
 from .projected import render_projected
+from .check import render_check

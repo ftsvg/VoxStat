@@ -1,3 +1,4 @@
+import asyncio
 from datetime import datetime, timezone
 from dateutil.relativedelta import relativedelta
 from typing import List
@@ -7,6 +8,17 @@ from mcfetch import Player
 
 from config import Settings
 from core import mojang_session
+
+
+async def get_ign(uuid: str) -> str | None:
+    loop = asyncio.get_running_loop()
+    return await loop.run_in_executor(
+        None,
+        lambda: Player(
+            player=uuid,
+            requests_obj=mojang_session
+        ).name
+    )
 
 
 def get_xp_for_level(level: int) -> int:
@@ -66,6 +78,21 @@ def get_xp_and_stars(
     stars_gained = round(xp_gained / 5000, 2)
 
     return xp_gained, stars_gained
+
+
+def get_stars_gained(
+    old_level: int,
+    old_xp: int,
+    new_level: int,
+    new_xp: int
+) -> float:
+    old_total_xp = get_total_xp(old_level, old_xp)
+    new_total_xp = get_total_xp(new_level, new_xp)
+
+    xp_gained = new_total_xp - old_total_xp
+    stars_gained = round(xp_gained / 5000, 2)
+
+    return stars_gained
 
 
 def started_on(unix_time: int) -> str:
@@ -170,4 +197,8 @@ async def check_server(interaction: Interaction):
 
 
 def is_valid_tag(tag: str) -> bool:
-    return "§" in tag    
+    return "§" in tag  
+
+
+def split_list(lst):
+    return [lst[i : i + 50] for i in range(0, len(lst), 50)]

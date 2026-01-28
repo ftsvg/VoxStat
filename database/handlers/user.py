@@ -2,7 +2,7 @@ from database import ensure_cursor, Cursor, Users
 
 
 class UserHandler:
-    def __init__(self, uuid: str) -> None:
+    def __init__(self, uuid: str | None = None) -> None:
         self.uuid: str = uuid
 
     @ensure_cursor
@@ -83,3 +83,78 @@ class UserHandler:
             "DELETE FROM users WHERE uuid=%s", (self.uuid, )
         )
 
+
+    @ensure_cursor
+    def get_all_users(self, *, cursor: Cursor = None) -> list[Users]:
+        cursor.execute(
+            "SELECT * FROM users"
+        )
+        rows = cursor.fetchall()
+
+        return [Users(**row) for row in rows] if rows else []
+    
+
+    @ensure_cursor
+    def update_user(
+        self,
+        star: int,
+        xp: int,
+        highest_star: float,
+        past_star_weeks: list,
+        *,
+        cursor: Cursor = None
+    ) -> None:
+        cursor.execute(
+            """
+                UPDATE users
+                SET
+                    star = %s,
+                    xp = %s,
+                    highest_star = %s,
+                    past_star_weeks = %s
+                WHERE uuid = %s
+            """,
+            (star, xp, highest_star, past_star_weeks, self.uuid)
+        )
+
+    
+    @ensure_cursor
+    def get_old_guild_members(
+        self, 
+        guild_id: int, 
+        *, 
+        cursor: Cursor = None
+    ) -> list[str]:
+        cursor.execute(
+            "SELECT uuid FROM users WHERE guild_id = %s",
+            (guild_id,)
+        )
+        result = cursor.fetchall()
+        return [row["uuid"] for row in result]
+    
+
+    @ensure_cursor
+    def set_guild(
+        self, 
+        guild_id: int, 
+        *, 
+        cursor: Cursor=None
+    ) -> None:
+        cursor.execute("UPDATE users SET guild_id=%s WHERE uuid=%s", (guild_id, self.uuid,))
+
+
+    @ensure_cursor
+    def get_guild_members(
+        self,
+        guild_id: int,
+        *,
+        cursor: Cursor = None
+    ) -> list[Users]:
+        cursor.execute(
+            "SELECT * FROM users WHERE guild_id = %s",
+            (guild_id,)
+        )
+        rows = cursor.fetchall()
+
+        return [Users(**row) for row in rows]
+    

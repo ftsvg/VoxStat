@@ -39,3 +39,32 @@ class HistoricalStats:
     star: int
     xp: int
     last_reset: int
+
+
+@dataclass(slots=True)
+class Charts:
+    id: int
+    last_xp_chart: int
+    last_gxp_chart: int
+
+
+@dataclass(slots=True)
+class Guilds:
+    id: int
+    guild_id: int
+    gxp: int
+
+
+@dataclass(slots=True)
+class Channels:
+    id: int
+    xp_charts: int
+    gxp_charts: int
+    applications: int   
+
+
+@dataclass(slots=True)
+class GuildLogsChannel:
+    id: int
+    guild_id: int
+    channel_id: int

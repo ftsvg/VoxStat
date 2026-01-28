@@ -80,8 +80,8 @@ async def link_interaction(
                 guild_id=player_stats.guild_id,
                 star=player_stats.level,
                 xp=player_stats.exp,
-                highest_star=0.00,
-                past_star_weeks=json.dumps([]),
+                highest_star=0.0,
+                past_star_weeks=json.dumps([0.0, 0.0, 0.0, 0.0, 0.0]),
                 tracklist=False
             )
 
