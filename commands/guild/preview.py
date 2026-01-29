@@ -5,7 +5,7 @@ from discord import app_commands, Interaction, File
 
 from logger import logger
 from content import ERRORS
-from core import MAIN_COLOR, check_server, generate_xp_chart
+from core import check_server, generate_xp_chart, get_stars_gained
 from core.api.helpers import GuildInfo, PlayerInfo
 from database.handlers import UserHandler, GuildsHandler, ChartsHandler
 from database import Charts
@@ -65,21 +65,17 @@ class Preview(commands.Cog):
             x, y, colors = [], [], []
 
             for user in users:
-                past_weeks = (
-                    json.loads(user.past_star_weeks)
-                    if isinstance(user.past_star_weeks, str)
-                    else user.past_star_weeks
-                )
-
-                past_week = past_weeks[2] if past_weeks else 0
-
                 info = await PlayerInfo.fetch(user.uuid)
                 if not info or not info.last_login_name:
                     continue
 
+                stars_gained = get_stars_gained(
+                    user.star, user.xp, info.level, info.exp
+                )                
+
                 x.append(info.last_login_name)
-                y.append(past_week)
-                colors.append("#1685F8" if past_week >= 2 else "#F32C55")
+                y.append(stars_gained)
+                colors.append("#1685F8" if stars_gained >= 2 else "#F32C55")
 
             await generate_xp_chart(
                 x,
