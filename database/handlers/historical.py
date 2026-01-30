@@ -3,25 +3,24 @@ from typing import Optional, Iterable
 from database import ensure_cursor, Cursor, HistoricalStats
 
 
-
 class HistoricalHandler:
     def __init__(self, uuid: str, period: str) -> None:
         self._uuid = uuid
         self._period = period
+
 
     @ensure_cursor
     def get_stats(self, *, cursor: Cursor = None) -> Optional[HistoricalStats]:
         cursor.execute(
             """
             SELECT uuid, period, wins, weighted, kills,
-                finals, beds, star, xp, last_reset
+                   finals, beds, star, xp, last_reset
             FROM historical_stats
             WHERE uuid=%s AND period=%s
             """,
             (self._uuid, self._period),
         )
         row = cursor.fetchone()
-
         return HistoricalStats(**row) if row else None
 
 
@@ -77,5 +76,5 @@ class HistoricalHandler:
                 beds,
                 star,
                 xp,
-            )
+            ),
         )

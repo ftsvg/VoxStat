@@ -33,6 +33,8 @@ async def update_historical(period: str) -> None:
 
         try:
             player_stats = await PlayerInfo.fetch(uuid)
+            if not player_stats:
+                continue
 
             HistoricalHandler(uuid, period).upsert_stats(
                 player_stats.wins,
@@ -45,7 +47,7 @@ async def update_historical(period: str) -> None:
             )
 
         except Exception:
-            logger.exception("Unhandled exception")
+            logger.exception("Unhandled exception during historical reset")
 
 
 async def update_daily() -> None:
@@ -69,16 +71,15 @@ class HistoricalReset(commands.Cog):
         self.client = client
         self.update_task.start()
 
-    @tasks.loop(minutes=1)
+    @tasks.loop(minutes=10)
     async def update_task(self) -> None:
         try:
             await update_daily()
             await update_weekly()
             await update_monthly()
             await update_yearly()
-
         except Exception:
-            logger.exception("Unhandled exception")
+            logger.exception("Unhandled exception in HistoricalReset task")
 
 
 async def setup(client: commands.Bot) -> None:
