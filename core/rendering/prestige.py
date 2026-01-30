@@ -22,7 +22,9 @@ class PrestigeColorMaps:
 
 def get_prestige_color(level: int) -> str:
     c = PrestigeColorMaps
-    level_str = f"[{level}✫]"
+    
+    star = "✪" if level >= 1100 else "✫"
+    level_str = f"[{level}{star}]"
 
     if level < 1000:
         for threshold in sorted(c.prestige_map.keys(), reverse=True):
