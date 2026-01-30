@@ -29,19 +29,17 @@ class GuildLogs(commands.Cog):
                 return_exceptions=True
             )
 
-            new_all_members = [
-                info.members if not isinstance(info, Exception) and info else []
-                for info in guild_infos
-            ]
-
-            old_all_members = [
-                UserHandler().get_old_guild_members(guild.guild_id) or []
-                for guild in guilds
-            ]
-
             for i, guild in enumerate(guilds):
-                new_members = [u.replace("-", "") for u in new_all_members[i]]
-                old_members = [u.replace("-", "") for u in old_all_members[i]]
+                info = guild_infos[i]
+
+                if isinstance(info, Exception) or not info or info.members is None:
+                    continue
+
+                new_members = [u.replace("-", "") for u in info.members]
+                old_members = [
+                    u.replace("-", "")
+                    for u in (UserHandler().get_old_guild_members(guild.guild_id) or [])
+                ]
 
                 joined_uuids = list(set(new_members) - set(old_members))
                 left_uuids = list(set(old_members) - set(new_members))
@@ -59,23 +57,23 @@ class GuildLogs(commands.Cog):
                 channel_id = ChannelsHandler().get_guild_logs_channel(guild.guild_id)
                 channel: TextChannel = await self.client.fetch_channel(channel_id)
 
-                for idx, info in enumerate(joined_infos):
-                    if isinstance(info, Exception):
+                for idx, player_info in enumerate(joined_infos):
+                    if isinstance(player_info, Exception):
                         continue
-                    ign = info.last_login_name
+                    ign = player_info.last_login_name
                     if ign and channel:
                         await self.joined(
                             ign,
                             joined_uuids[idx],
                             guild,
                             channel,
-                            info
+                            player_info
                         )
 
-                for idx, info in enumerate(left_infos):
-                    if isinstance(info, Exception):
+                for idx, player_info in enumerate(left_infos):
+                    if isinstance(player_info, Exception):
                         continue
-                    ign = info.last_login_name
+                    ign = player_info.last_login_name
                     if ign and channel:
                         await self.left(
                             ign,
